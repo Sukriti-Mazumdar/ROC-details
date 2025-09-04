@@ -26,7 +26,7 @@ const ClientDetailView = () => {
     phone: '+91 9876543210',
     company: 'Sharma Industries Pvt Ltd',
     cin: 'U72200DL2015PTC123456',
-    filingType: 'Individual Tax Return',
+    filingType: 'ROC',
     assignedOperator: 'Rajesh Gupta',
     deadline: '2024-01-15',
     priority: 'High',
@@ -110,14 +110,14 @@ const ClientDetailView = () => {
 
   const [documentStatuses, setDocumentStatuses] = useState<Record<string, DocumentStatus>>({});
 
-  const handleDocumentAction = (caseId, docIndex, action, remarks = '') => {
+  const handleDocumentAction = (caseId: string, docIndex: number, action: 'approved' | 'rejected' | 'pending', remarks: string = '') => {
     setDocumentStatuses(prev => ({
       ...prev,
       [`${caseId}-${docIndex}`]: { status: action, remarks }
     }));
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string): string => {
     switch (status) {
       case 'Completed': return 'status-completed';
       case 'In Progress': return 'status-in-progress';
@@ -126,10 +126,10 @@ const ClientDetailView = () => {
     }
   };
 
-  const getDocumentStatusIcon = (caseId, docIndex) => {
+  const getDocumentStatusIcon = (caseId: string, docIndex: number): React.ReactElement => {
     const status = documentStatuses[`${caseId}-${docIndex}`];
     if (!status) return <Clock className="icon-gray" />;
-    
+
     switch (status.status) {
       case 'approved': return <CheckCircle className="icon-green" />;
       case 'rejected': return <XCircle className="icon-red" />;
@@ -137,8 +137,8 @@ const ClientDetailView = () => {
     }
   };
 
-  const DocumentVerificationCard = ({ rocCase }) => {
-    const allDocumentsVerified = rocCase.documents.every((_, index) => 
+  const DocumentVerificationCard = ({ rocCase }: { rocCase: RocCase }) => {
+    const allDocumentsVerified = rocCase.documents.every((_: string, index: number) =>
       documentStatuses[`${rocCase.id}-${index}`]?.status === 'approved'
     );
 
@@ -196,16 +196,16 @@ const ClientDetailView = () => {
           </h4>
           
           <div className="document-list">
-            {rocCase.documents.map((doc, index) => {
+            {rocCase.documents.map((doc: string, index: number) => {
               const docStatus = documentStatuses[`${rocCase.id}-${index}`];
-              
+
               return (
                 <div key={index} className="document-item">
                   <div className="document-info">
                     {getDocumentStatusIcon(rocCase.id, index)}
                     <span className="document-name">{doc}</span>
                   </div>
-                  
+
                   <div className="document-actions">
                     <button className="action-btn view-btn">
                       <Eye className="action-icon" />
@@ -213,7 +213,7 @@ const ClientDetailView = () => {
                     <button className="action-btn download-btn">
                       <Download className="action-icon" />
                     </button>
-                    
+
                     {!docStatus && (
                       <div className="approval-buttons">
                         <button
@@ -225,7 +225,7 @@ const ClientDetailView = () => {
                         <button
                           onClick={() => {
                             const remarks = prompt('Enter rejection remarks:');
-                            if (remarks) handleDocumentAction(rocCase.id, index, 'rejected', remarks);
+                            if (remarks !== null && remarks.trim() !== '') handleDocumentAction(rocCase.id, index, 'rejected', remarks);
                           }}
                           className="btn btn-reject"
                         >
@@ -233,11 +233,11 @@ const ClientDetailView = () => {
                         </button>
                       </div>
                     )}
-                    
+
                     {docStatus && (
                       <span className={`status-small ${
-                        docStatus.status === 'approved' 
-                          ? 'status-small-approved' 
+                        docStatus.status === 'approved'
+                          ? 'status-small-approved'
                           : 'status-small-rejected'
                       }`}>
                         {docStatus.status === 'approved' ? 'Approved' : 'Rejected'}
@@ -272,6 +272,9 @@ const ClientDetailView = () => {
       min-height: 100vh;
       background-color: #f5f5f5;
       padding: 24px;
+      display: flex;
+      justify-content: stretch;
+      color: #000000;
     }
 
     .main-content {
@@ -508,6 +511,7 @@ const ClientDetailView = () => {
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       margin-bottom: 24px;
+      align-items: center;
     }
 
     @media (max-width: 768px) {
@@ -568,6 +572,7 @@ const ClientDetailView = () => {
       padding: 12px;
       background-color: #f9fafb;
       border-radius: 8px;
+      min-width: 600px;
     }
 
     .document-info {
