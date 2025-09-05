@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, FileText, CheckCircle, XCircle, Clock, Download, E
 
 const ClientDetailView = () => {
   const [activeTab, setActiveTab] = useState<string>('overview');
+  const [selectedClient, setSelectedClient] = useState<'client1' | 'client2'>('client1');
   
   interface ClientData {
     id: string;
@@ -34,21 +35,36 @@ const ClientDetailView = () => {
     status: 'In Progress'
   };
 
+  const clientData2: ClientData = {
+    id: 'CL002',
+    name: 'Amit Kumar',
+    email: 'amit.kumar@example.com',
+    phone: '+91 9123456789',
+    company: 'Kumar Enterprises',
+    cin: 'U12345DL2020PTC543210',
+    filingType: 'KYC',
+    assignedOperator: 'Suresh Patel',
+    deadline: '2025-07-31',
+    priority: 'Medium',
+    amount: '₹20,000',
+    status: 'Pending'
+  };
+
   interface RocCase {
     id: string;
     category: string;
     form: string;
     frequency: string;
-    period: string;
+    period?: string;
     agmDate?: string;
-    dueDate: string;
-    extendedDate: string;
-    dateOfFiling: string;
-    acknowledgmentNo: string;
-    taxFees: string;
-    attachment: string;
-    status: string;
-    documents: string[];
+    dueDate?: string;
+    extendedDate?: string;
+    dateOfFiling?: string;
+    acknowledgmentNo?: string;
+    taxFees?: string;
+    attachment?: string;
+    status?: string;
+    documents?: string[];
     eventDate?: string;
   }
 
@@ -103,6 +119,80 @@ const ClientDetailView = () => {
     }
   ];
 
+  const rocCases2: RocCase[] = [
+    {
+      id: 'CASE-7',
+      category: 'KYC',
+      form: 'TRADE LIC',
+      frequency: 'YEARLY',
+      period: '31-03-2025',
+      dueDate: '31-07-2024',
+      extendedDate: 'Yes/No',
+      dateOfFiling: '25-07-2024',
+      acknowledgmentNo: '121313131',
+      attachment: 'CHALLAN, CERTIFICATE, Other Documents',
+      status: 'Pending',
+      documents: ['CHALLAN', 'CERTIFICATE', 'Other Documents']
+    },
+    {
+      id: 'CASE-8',
+      category: 'KYC',
+      form: 'PROFESSI',
+      frequency: 'YEARLY',
+      period: '31-03-2025',
+      dueDate: '31-07-2024',
+      extendedDate: 'Yes/No',
+      dateOfFiling: '18-07-2024',
+      acknowledgmentNo: '12121254',
+      attachment: 'CHALLAN, CERTIFICATE, Other Documents',
+      status: 'Pending',
+      documents: ['CHALLAN', 'CERTIFICATE', 'Other Documents']
+    },
+    {
+      id: 'CASE-9',
+      category: 'KYC',
+      form: 'PAN',
+      frequency: 'ONE TIME',
+      period: '',
+      dueDate: '',
+      extendedDate: '',
+      dateOfFiling: '',
+      acknowledgmentNo: '',
+      taxFees: '',
+      attachment: 'PAN CARD',
+      status: 'Pending',
+      documents: ['PAN CARD']
+    },
+    {
+      id: 'CASE-10',
+      category: 'KYC',
+      form: 'PASSPORT',
+      frequency: 'AS REQUIRED',
+      period: '',
+      dueDate: '25-10-2030',
+      extendedDate: '',
+      dateOfFiling: '',
+      acknowledgmentNo: '12121254',
+      attachment: 'PASS port, Other Documents',
+      status: 'Pending',
+      documents: ['PASS port', 'Other Documents']
+    },
+    {
+      id: 'CASE-11',
+      category: 'KYC',
+      form: 'DRIVING LI',
+      frequency: 'AS REQUIRED',
+      period: '',
+      dueDate: '25-10-2030',
+      extendedDate: '',
+      dateOfFiling: '',
+      acknowledgmentNo: '12121254',
+      attachment: 'DRIVING LICENCE, Other Documents',
+      status: 'Pending',
+      documents: ['DRIVING LICENCE', 'Other Documents']
+    }
+  ];
+
   interface DocumentStatus {
     status: 'approved' | 'rejected' | 'pending';
     remarks?: string;
@@ -138,7 +228,7 @@ const ClientDetailView = () => {
   };
 
   const DocumentVerificationCard = ({ rocCase }: { rocCase: RocCase }) => {
-    const allDocumentsVerified = rocCase.documents.every((_: string, index: number) =>
+    const allDocumentsVerified = (rocCase.documents ?? []).every((_: string, index: number) =>
       documentStatuses[`${rocCase.id}-${index}`]?.status === 'approved'
     );
 
@@ -149,7 +239,7 @@ const ClientDetailView = () => {
             <h3 className="doc-card-title">{rocCase.form} - {rocCase.frequency}</h3>
             <p className="doc-card-subtitle">Period: {rocCase.period}</p>
           </div>
-          <span className={`status-badge ${getStatusColor(rocCase.status)}`}>
+          <span className={`status-badge ${getStatusColor(rocCase.status ?? '')}`}>
             {rocCase.status}
           </span>
         </div>
@@ -162,11 +252,11 @@ const ClientDetailView = () => {
             </div>
             <div className="detail-row">
               <span className="detail-label">Filing Date:</span>
-              <span className="detail-value">{rocCase.dateOfFiling}</span>
+                <span className="detail-value">{rocCase.dateOfFiling ?? ''}</span>
             </div>
             <div className="detail-row">
               <span className="detail-label">Acknowledgment:</span>
-              <span className="detail-value">{rocCase.acknowledgmentNo}</span>
+              <span className="detail-value">{rocCase.acknowledgmentNo ?? ''}</span>
             </div>
           </div>
           <div className="details-column">
@@ -196,7 +286,7 @@ const ClientDetailView = () => {
           </h4>
           
           <div className="document-list">
-            {rocCase.documents.map((doc: string, index: number) => {
+            {(rocCase.documents ?? []).map((doc: string, index: number) => {
               const docStatus = documentStatuses[`${rocCase.id}-${index}`];
 
               return (
@@ -801,6 +891,37 @@ const ClientDetailView = () => {
       <style>{styles}</style>
       <div className="container">
         <div className="main-content">
+          {/* Client Selector */}
+          <div style={{ marginBottom: '16px' }}>
+            <button
+              onClick={() => setSelectedClient('client1')}
+              style={{
+                marginRight: '8px',
+                padding: '8px 16px',
+                backgroundColor: selectedClient === 'client1' ? '#2563eb' : '#e5e7eb',
+                color: selectedClient === 'client1' ? 'white' : 'black',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Client 1
+            </button>
+            <button
+              onClick={() => setSelectedClient('client2')}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: selectedClient === 'client2' ? '#2563eb' : '#e5e7eb',
+                color: selectedClient === 'client2' ? 'white' : 'black',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Client 2
+            </button>
+          </div>
+
           {/* Header */}
           <div className="header-card">
             <div className="header-content">
@@ -809,20 +930,20 @@ const ClientDetailView = () => {
                   <ArrowLeft style={{width: 20, height: 20}} />
                 </button>
                 <div className="client-info">
-                  <h1>{clientData.name}</h1>
-                  <p>{clientData.company}</p>
+                  <h1>{selectedClient === 'client1' ? clientData.name : clientData2.name}</h1>
+                  <p>{selectedClient === 'client1' ? clientData.company : clientData2.company}</p>
                 </div>
               </div>
               <div className="header-badges">
-                <span className={`status-badge ${getStatusColor(clientData.status)}`}>
-                  {clientData.status}
+                <span className={`status-badge ${getStatusColor(selectedClient === 'client1' ? clientData.status : clientData2.status)}`}>
+                  {selectedClient === 'client1' ? clientData.status : clientData2.status}
                 </span>
                 <span className={`status-badge ${
-                  clientData.priority === 'High' ? 'priority-high' : 
-                  clientData.priority === 'Medium' ? 'priority-medium' : 
+                  (selectedClient === 'client1' ? clientData.priority : clientData2.priority) === 'High' ? 'priority-high' : 
+                  (selectedClient === 'client1' ? clientData.priority : clientData2.priority) === 'Medium' ? 'priority-medium' : 
                   'priority-low'
                 }`}>
-                  {clientData.priority} Priority
+                  {selectedClient === 'client1' ? clientData.priority : clientData2.priority} Priority
                 </span>
               </div>
             </div>
@@ -852,19 +973,19 @@ const ClientDetailView = () => {
                     <div className="info-list">
                       <div className="info-item">
                         <span className="info-label">Client ID:</span>
-                        <span className="info-value">{clientData.id}</span>
+                        <span className="info-value">{selectedClient === 'client1' ? clientData.id : clientData2.id}</span>
                       </div>
                       <div className="info-item">
                         <span className="info-label">Email:</span>
-                        <span className="info-value">{clientData.email}</span>
+                        <span className="info-value">{selectedClient === 'client1' ? clientData.email : clientData2.email}</span>
                       </div>
                       <div className="info-item">
                         <span className="info-label">Phone:</span>
-                        <span className="info-value">{clientData.phone}</span>
+                        <span className="info-value">{selectedClient === 'client1' ? clientData.phone : clientData2.phone}</span>
                       </div>
                       <div className="info-item">
                         <span className="info-label">CIN:</span>
-                        <span className="info-value">{clientData.cin}</span>
+                        <span className="info-value">{selectedClient === 'client1' ? clientData.cin : clientData2.cin}</span>
                       </div>
                     </div>
                   </div>
@@ -874,19 +995,19 @@ const ClientDetailView = () => {
                     <div className="info-list">
                       <div className="info-item">
                         <span className="info-label">Filing Type:</span>
-                        <span className="info-value">{clientData.filingType}</span>
+                        <span className="info-value">{selectedClient === 'client1' ? clientData.filingType : clientData2.filingType}</span>
                       </div>
                       <div className="info-item">
                         <span className="info-label">Assigned Operator:</span>
-                        <span className="info-value">{clientData.assignedOperator}</span>
+                        <span className="info-value">{selectedClient === 'client1' ? clientData.assignedOperator : clientData2.assignedOperator}</span>
                       </div>
                       <div className="info-item">
                         <span className="info-label">Deadline:</span>
-                        <span className="info-value">{clientData.deadline}</span>
+                        <span className="info-value">{selectedClient === 'client1' ? clientData.deadline : clientData2.deadline}</span>
                       </div>
                       <div className="info-item">
                         <span className="info-label">Amount:</span>
-                        <span className="info-value">{clientData.amount}</span>
+                        <span className="info-value">{selectedClient === 'client1' ? clientData.amount : clientData2.amount}</span>
                       </div>
                     </div>
                   </div>
@@ -896,13 +1017,13 @@ const ClientDetailView = () => {
               {activeTab === 'documents' && (
                 <div>
                   <div className="documents-header">
-                    <h3>ROC Compliance Cases</h3>
+                    <h3>Compliance Cases</h3>
                     <div className="documents-meta">
-                      <span>Total Cases: {rocCases.length}</span>
+                      <span>Total Cases: {selectedClient === 'client1' ? rocCases.length : rocCases2.length}</span>
                     </div>
                   </div>
                   
-                  {rocCases.map((rocCase) => (
+                  {(selectedClient === 'client1' ? rocCases : rocCases2).map((rocCase) => (
                     <DocumentVerificationCard key={rocCase.id} rocCase={rocCase} />
                   ))}
                 </div>
