@@ -2,53 +2,83 @@ import React, { useState } from 'react';
 import { ArrowLeft, Calendar, FileText, CheckCircle, XCircle, Clock, Download, Eye } from 'lucide-react';
 
 const ClientDetailView = () => {
-  const [activeTab, setActiveTab] = useState<string>('overview');
-  const [selectedClient, setSelectedClient] = useState<'client1' | 'client2'>('client1');
+const [activeTab, setActiveTab] = useState<string>('overview');
+const [selectedClient, setSelectedClient] = useState<'client1' | 'client2' | 'client3' | 'client4'>('client1');
   
-  interface ClientData {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    company: string;
-    cin: string;
-    filingType: string;
-    assignedOperator: string;
-    deadline: string;
-    priority: string;
-    amount: string;
-    status: string;
-  }
+interface ClientData {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  cin: string;
+  filingType: string;
+  assignedOperator: string;
+  deadline: string;
+  priority: string;
+  amount: string;
+  status: string;
+}
 
-  const clientData: ClientData = {
-    id: 'CL001',
-    name: 'Priya Sharma',
-    email: 'priya.sharma@gmail.com',
-    phone: '+91 9876543210',
-    company: 'Sharma Industries Pvt Ltd',
-    cin: 'U72200DL2015PTC123456',
-    filingType: 'ROC',
-    assignedOperator: 'Rajesh Gupta',
-    deadline: '2024-01-15',
-    priority: 'High',
-    amount: '₹15,000',
-    status: 'In Progress'
-  };
+const clientData: ClientData = {
+  id: 'CL001',
+  name: 'Priya Sharma',
+  email: 'priya.sharma@gmail.com',
+  phone: '+91 9876543210',
+  company: 'Sharma Industries Pvt Ltd',
+  cin: 'U72200DL2015PTC123456',
+  filingType: 'ROC',
+  assignedOperator: 'Rajesh Gupta',
+  deadline: '2024-01-15',
+  priority: 'High',
+  amount: '₹15,000',
+  status: 'In Progress'
+};
 
-  const clientData2: ClientData = {
-    id: 'CL002',
-    name: 'Amit Kumar',
-    email: 'amit.kumar@example.com',
-    phone: '+91 9123456789',
-    company: 'Kumar Enterprises',
-    cin: 'U12345DL2020PTC543210',
-    filingType: 'KYC',
-    assignedOperator: 'Suresh Patel',
-    deadline: '2025-07-31',
-    priority: 'Medium',
-    amount: '₹20,000',
-    status: 'Pending'
-  };
+const clientData2: ClientData = {
+  id: 'CL002',
+  name: 'Amit Kumar',
+  email: 'amit.kumar@example.com',
+  phone: '+91 9123456789',
+  company: 'Kumar Enterprises',
+  cin: 'U12345DL2020PTC543210',
+  filingType: 'KYC',
+  assignedOperator: 'Suresh Patel',
+  deadline: '2025-07-31',
+  priority: 'Medium',
+  amount: '₹20,000',
+  status: 'Pending'
+};
+
+const clientData3: ClientData = {
+  id: 'CL003',
+  name: 'Ravi Singh',
+  email: 'ravi.singh@example.com',
+  phone: '+91 9988776655',
+  company: 'Singh Traders',
+  cin: 'U98765DL2018PTC678901',
+  filingType: 'GST',
+  assignedOperator: 'Anita Desai',
+  deadline: '2024-04-19',
+  priority: 'High',
+  amount: '₹25,000',
+  status: 'In Progress'
+};
+
+const clientData4: ClientData = {
+  id: 'CL004',
+  name: 'Neha Verma',
+  email: 'neha.verma@example.com',
+  phone: '+91 9876541230',
+  company: 'Verma Solutions',
+  cin: 'U45678DL2022PTC789012',
+  filingType: 'TDS',
+  assignedOperator: 'Vikram Singh',
+  deadline: '2024-07-25',
+  priority: 'Medium',
+  amount: '₹18,000',
+  status: 'Pending'
+};
 
   interface RocCase {
     id: string;
@@ -68,130 +98,278 @@ const ClientDetailView = () => {
     eventDate?: string;
   }
 
-  const rocCases: RocCase[] = [
-    {
-      id: 'CASE-2',
-      category: 'ROC',
-      form: 'AOC-4',
-      frequency: 'Yearly',
-      period: '31-3-2024',
-      agmDate: '30-09-2024',
-      dueDate: '29-10-2024',
-      extendedDate: 'Yes/No',
-      dateOfFiling: '25-10-2024',
-      acknowledgmentNo: 'AB123456',
-      taxFees: '₹400',
-      attachment: 'AOC 4',
-      status: 'Completed',
-      documents: ['Challan', 'Balance Sheet', 'Profit & Loss', 'Director report', 'Other Documents']
-    },
-    {
-      id: 'CASE-3',
-      category: 'ROC',
-      form: 'MGT14',
-      frequency: 'AS AND WHEN REQD',
-      period: '31-03-2024',
-      eventDate: '15-04-2023',
-      dueDate: '14-05-2024',
-      extendedDate: 'Yes/No',
-      dateOfFiling: '15-05-2024',
-      acknowledgmentNo: 'ab6597450',
-      taxFees: '₹1800',
-      attachment: 'MGT 14',
-      status: 'Completed',
-      documents: ['Challan', 'Notice', 'Resolution', 'Other Documents']
-    },
-    {
-      id: 'CASE-4',
-      category: 'ROC',
-      form: 'MGT7',
-      frequency: 'Yearly',
-      period: '31-03-2024',
-      agmDate: '30-09-2024',
-      dueDate: '29-11-2024',
-      extendedDate: 'Yes/No',
-      dateOfFiling: '10-11-2024',
-      acknowledgmentNo: 'AB598470',
-      taxFees: '₹400',
-      attachment: 'MGT7',
-      status: 'In Progress',
-      documents: ['CHALLAN', 'Notice', 'List of Share Holder', 'List of Director', 'Other attachment']
-    }
-  ];
+const rocCases: RocCase[] = [
+  {
+    id: 'CASE-2',
+    category: 'ROC',
+    form: 'AOC-4',
+    frequency: 'Yearly',
+    period: '31-3-2024',
+    agmDate: '30-09-2024',
+    dueDate: '29-10-2024',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '25-10-2024',
+    acknowledgmentNo: 'AB123456',
+    taxFees: '₹400',
+    attachment: 'AOC 4',
+    status: 'Completed',
+    documents: ['Challan', 'Balance Sheet', 'Profit & Loss', 'Director report', 'Other Documents']
+  },
+  {
+    id: 'CASE-3',
+    category: 'ROC',
+    form: 'MGT14',
+    frequency: 'AS AND WHEN REQD',
+    period: '31-03-2024',
+    eventDate: '15-04-2023',
+    dueDate: '14-05-2024',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '15-05-2024',
+    acknowledgmentNo: 'ab6597450',
+    taxFees: '₹1800',
+    attachment: 'MGT 14',
+    status: 'Completed',
+    documents: ['Challan', 'Notice', 'Resolution', 'Other Documents']
+  },
+  {
+    id: 'CASE-4',
+    category: 'ROC',
+    form: 'MGT7',
+    frequency: 'Yearly',
+    period: '31-03-2024',
+    agmDate: '30-09-2024',
+    dueDate: '29-11-2024',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '10-11-2024',
+    acknowledgmentNo: 'AB598470',
+    taxFees: '₹400',
+    attachment: 'MGT7',
+    status: 'In Progress',
+    documents: ['CHALLAN', 'Notice', 'List of Share Holder', 'List of Director', 'Other attachment']
+  }
+];
 
-  const rocCases2: RocCase[] = [
-    {
-      id: 'CASE-7',
-      category: 'KYC',
-      form: 'TRADE LIC',
-      frequency: 'YEARLY',
-      period: '31-03-2025',
-      dueDate: '31-07-2024',
-      extendedDate: 'Yes/No',
-      dateOfFiling: '25-07-2024',
-      acknowledgmentNo: '121313131',
-      attachment: 'CHALLAN, CERTIFICATE, Other Documents',
-      status: 'Pending',
-      documents: ['CHALLAN', 'CERTIFICATE', 'Other Documents']
-    },
-    {
-      id: 'CASE-8',
-      category: 'KYC',
-      form: 'PROFESSI',
-      frequency: 'YEARLY',
-      period: '31-03-2025',
-      dueDate: '31-07-2024',
-      extendedDate: 'Yes/No',
-      dateOfFiling: '18-07-2024',
-      acknowledgmentNo: '12121254',
-      attachment: 'CHALLAN, CERTIFICATE, Other Documents',
-      status: 'Pending',
-      documents: ['CHALLAN', 'CERTIFICATE', 'Other Documents']
-    },
-    {
-      id: 'CASE-9',
-      category: 'KYC',
-      form: 'PAN',
-      frequency: 'ONE TIME',
-      period: '',
-      dueDate: '',
-      extendedDate: '',
-      dateOfFiling: '',
-      acknowledgmentNo: '',
-      taxFees: '',
-      attachment: 'PAN CARD',
-      status: 'Pending',
-      documents: ['PAN CARD']
-    },
-    {
-      id: 'CASE-10',
-      category: 'KYC',
-      form: 'PASSPORT',
-      frequency: 'AS REQUIRED',
-      period: '',
-      dueDate: '25-10-2030',
-      extendedDate: '',
-      dateOfFiling: '',
-      acknowledgmentNo: '12121254',
-      attachment: 'PASS port, Other Documents',
-      status: 'Pending',
-      documents: ['PASS port', 'Other Documents']
-    },
-    {
-      id: 'CASE-11',
-      category: 'KYC',
-      form: 'DRIVING LI',
-      frequency: 'AS REQUIRED',
-      period: '',
-      dueDate: '25-10-2030',
-      extendedDate: '',
-      dateOfFiling: '',
-      acknowledgmentNo: '12121254',
-      attachment: 'DRIVING LICENCE, Other Documents',
-      status: 'Pending',
-      documents: ['DRIVING LICENCE', 'Other Documents']
-    }
-  ];
+const gstCases: RocCase[] = [
+  {
+    id: 'CASE-5',
+    category: 'GST',
+    form: 'GSTR3B',
+    frequency: 'MONTHLY',
+    period: '########',
+    dueDate: '########',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '19-04-2024',
+    acknowledgmentNo: '12455222',
+    attachment: 'FORM 3B',
+    status: 'In Progress',
+    documents: ['CHALLAN', 'ITC LEDGER', 'COMPUTATION OF LIABILITIES', 'GSTR 2A', 'GSTR 2B', 'Other Documents']
+  }
+];
+
+const tdsCases: RocCase[] = [
+  {
+    id: 'CASE-6',
+    category: 'TDS/TCS',
+    form: '26Q',
+    frequency: 'QTRLY',
+    period: '########',
+    dueDate: '########',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '25-07-2024',
+    acknowledgmentNo: '12225444',
+    attachment: '26Q',
+    // remarks: 'CHALLAN, STATEMENT OF DEDUCTION/CONTRIBUTION, tds/tcs CERTIFICATE, Other Documents', // Removed because 'remarks' is not in RocCase interface
+    status: 'Pending',
+    documents: ['CHALLAN', 'STATEMENT OF DEDUCTION/CONTRIBUTION', 'tds/tcs CERTIFICATE', 'Other Documents']
+  }
+];
+
+const rocCases2: RocCase[] = [
+  {
+    id: 'CASE-7',
+    category: 'KYC',
+    form: 'TRADE LIC',
+    frequency: 'YEARLY',
+    period: '31-03-2025',
+    dueDate: '31-07-2024',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '25-07-2024',
+    acknowledgmentNo: '121313131',
+    attachment: 'CHALLAN, CERTIFICATE, Other Documents',
+    status: 'Pending',
+    documents: ['CHALLAN', 'CERTIFICATE', 'Other Documents']
+  },
+  {
+    id: 'CASE-8',
+    category: 'KYC',
+    form: 'PROFESSION',
+    frequency: 'YEARLY',
+    period: '31-03-2025',
+    dueDate: '31-07-2024',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '18-07-2024',
+    acknowledgmentNo: '12121254',
+    attachment: 'CHALLAN, CERTIFICATE, Other Documents',
+    status: 'Pending',
+    documents: ['CHALLAN', 'CERTIFICATE', 'Other Documents']
+  },
+  {
+    id: 'CASE-9',
+    category: 'KYC',
+    form: 'PAN',
+    frequency: 'ONE TIME',
+    period: '',
+    dueDate: '',
+    extendedDate: '',
+    dateOfFiling: '',
+    acknowledgmentNo: '',
+    taxFees: '',
+    attachment: 'PAN CARD',
+    status: 'Pending',
+    documents: ['PAN CARD']
+  },
+  {
+    id: 'CASE-10',
+    category: 'KYC',
+    form: 'PASSPORT',
+    frequency: 'AS REQUIRED',
+    period: '',
+    dueDate: '25-10-2030',
+    extendedDate: '',
+    dateOfFiling: '',
+    acknowledgmentNo: '12121254',
+    attachment: 'PASS port, Other Documents',
+    status: 'Pending',
+    documents: ['PASS port', 'Other Documents']
+  },
+  {
+    id: 'CASE-11',
+    category: 'KYC',
+    form: 'DRIVING LICENCE',
+    frequency: 'AS REQUIRED',
+    period: '',
+    dueDate: '25-10-2030',
+    extendedDate: '',
+    dateOfFiling: '',
+    acknowledgmentNo: '12121254',
+    attachment: 'DRIVING LICENCE, Other Documents',
+    status: 'Pending',
+    documents: ['DRIVING LICENCE', 'Other Documents']
+  }
+];
+
+const additionalCases: RocCase[] = [
+  {
+    id: 'CASE-12',
+    category: 'UTILITIES',
+    form: 'ELECTRICITY',
+    frequency: 'MONTHLY',
+    period: '',
+    dueDate: '25-10-2030',
+    dateOfFiling: '',
+    acknowledgmentNo: '12121254',
+    attachment: 'BILL, PAYMENT RECEIPT, Other Documents',
+    status: 'Pending',
+    documents: ['BILL', 'PAYMENT RECEIPT', 'Other Documents']
+  },
+  {
+    id: 'CASE-13',
+    category: 'Immovable property',
+    form: 'Title deed',
+    frequency: '',
+    period: '',
+    dueDate: '25-10-2030',
+    dateOfFiling: '',
+    acknowledgmentNo: '',
+    attachment: 'Query, Tax payment challan, Valuation report, Searching report, Mutation certificate, Corporation tax challan, Other Documents',
+    status: 'Pending',
+    documents: ['Query', 'Tax payment challan', 'Valuation report', 'Searching report', 'Mutation certificate', 'Corporation tax challan', 'Other Documents']
+  },
+  {
+    id: 'CASE-14',
+    category: 'Tax Audit',
+    form: 'Form 3CD',
+    frequency: 'YEARLY',
+    period: '31-03-2024',
+    dueDate: '########',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '20-09-2024',
+    acknowledgmentNo: '112233',
+    attachment: 'Tax Audit, Acknowledgement, Audit Balance Sheet, Working, 26AS, AIS, Tally, Other Documents',
+    status: 'Pending',
+    documents: ['Tax Audit', 'Acknowledgement', 'Audit Balance Sheet', 'Working', '26AS', 'AIS', 'Tally', 'Other Documents']
+  },
+  {
+    id: 'CASE-15',
+    category: 'Statutory Audit',
+    form: 'Audit report',
+    frequency: 'YEARLY',
+    period: '31-03-2024',
+    dueDate: '########',
+    extendedDate: 'Yes/No',
+    dateOfFiling: '20-09-2024',
+    acknowledgmentNo: '112233',
+    attachment: 'Audit report, Director report, Audit Balance Sheet, Working, 26AS, AIS, Tally, Other Documents',
+    status: 'Pending',
+    documents: ['Audit report', 'Director report', 'Audit Balance Sheet', 'Working', '26AS', 'AIS', 'Tally', 'Other Documents']
+  },
+  {
+    id: 'CASE-16',
+    category: 'Bank Statement',
+    form: 'Monthly',
+    frequency: 'Monthly',
+    period: '01-04-2024 to 30-04-2024',
+    dueDate: '',
+    extendedDate: '',
+    dateOfFiling: '',
+    acknowledgmentNo: '',
+    attachment: 'Bank Statement, Other documents',
+    status: 'Pending',
+    documents: ['Bank Statement', 'Other documents']
+  },
+  {
+    id: 'CASE-17',
+    category: 'Book of Account',
+    form: 'Purchase',
+    frequency: 'One to One',
+    period: '',
+    dueDate: '',
+    extendedDate: '',
+    dateOfFiling: '',
+    acknowledgmentNo: '',
+    attachment: 'Purchase bill, Salary, Query Bill, Delivery Challan, Payment details, Testing report',
+    status: 'Pending',
+    documents: ['Purchase bill', 'Salary', 'Query Bill', 'Delivery Challan', 'Payment details', 'Testing report']
+  },
+  {
+    id: 'CASE-18',
+    category: 'Book of Account',
+    form: 'confirmation',
+    frequency: 'One to One',
+    period: '01-04-2024 to 31-03-2024',
+    dueDate: '',
+    extendedDate: '',
+    dateOfFiling: '',
+    acknowledgmentNo: '',
+    attachment: 'Information of acc',
+    status: 'Pending',
+    documents: ['Information of acc']
+  },
+  {
+    id: 'CASE-19',
+    category: 'Movable property',
+    form: 'Computer',
+    frequency: 'Core i7',
+    period: '',
+    dueDate: '15-12-2024',
+    extendedDate: '',
+    dateOfFiling: '',
+    acknowledgmentNo: '',
+    attachment: 'ABC ltd',
+    status: 'Pending',
+    documents: ['Purchase bill', 'Commencement certificate', 'Other Documents']
+  }
+];
 
   interface DocumentStatus {
     status: 'approved' | 'rejected' | 'pending';
@@ -892,35 +1070,63 @@ const ClientDetailView = () => {
       <div className="container">
         <div className="main-content">
           {/* Client Selector */}
-          <div style={{ marginBottom: '16px' }}>
-            <button
-              onClick={() => setSelectedClient('client1')}
-              style={{
-                marginRight: '8px',
-                padding: '8px 16px',
-                backgroundColor: selectedClient === 'client1' ? '#2563eb' : '#e5e7eb',
-                color: selectedClient === 'client1' ? 'white' : 'black',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
-            >
-              Client 1
-            </button>
-            <button
-              onClick={() => setSelectedClient('client2')}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: selectedClient === 'client2' ? '#2563eb' : '#e5e7eb',
-                color: selectedClient === 'client2' ? 'white' : 'black',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
-            >
-              Client 2
-            </button>
-          </div>
+<div style={{ marginBottom: '16px' }}>
+  <button
+    onClick={() => setSelectedClient('client1')}
+    style={{
+      marginRight: '8px',
+      padding: '8px 16px',
+      backgroundColor: selectedClient === 'client1' ? '#2563eb' : '#e5e7eb',
+      color: selectedClient === 'client1' ? 'white' : 'black',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer'
+    }}
+  >
+    Client 1
+  </button>
+  <button
+    onClick={() => setSelectedClient('client2')}
+    style={{
+      marginRight: '8px',
+      padding: '8px 16px',
+      backgroundColor: selectedClient === 'client2' ? '#2563eb' : '#e5e7eb',
+      color: selectedClient === 'client2' ? 'white' : 'black',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer'
+    }}
+  >
+    Client 2
+  </button>
+  <button
+    onClick={() => setSelectedClient('client3')}
+    style={{
+      marginRight: '8px',
+      padding: '8px 16px',
+      backgroundColor: selectedClient === 'client3' ? '#2563eb' : '#e5e7eb',
+      color: selectedClient === 'client3' ? 'white' : 'black',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer'
+    }}
+  >
+    Client 3
+  </button>
+  <button
+    onClick={() => setSelectedClient('client4')}
+    style={{
+      padding: '8px 16px',
+      backgroundColor: selectedClient === 'client4' ? '#2563eb' : '#e5e7eb',
+      color: selectedClient === 'client4' ? 'white' : 'black',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer'
+    }}
+  >
+    Client 4
+  </button>
+</div>
 
           {/* Header */}
           <div className="header-card">
@@ -930,20 +1136,20 @@ const ClientDetailView = () => {
                   <ArrowLeft style={{width: 20, height: 20}} />
                 </button>
                 <div className="client-info">
-                  <h1>{selectedClient === 'client1' ? clientData.name : clientData2.name}</h1>
-                  <p>{selectedClient === 'client1' ? clientData.company : clientData2.company}</p>
+                  <h1>{selectedClient === 'client1' ? clientData.name : selectedClient === 'client2' ? clientData2.name : selectedClient === 'client3' ? clientData3.name : clientData4.name}</h1>
+                  <p>{selectedClient === 'client1' ? clientData.company : selectedClient === 'client2' ? clientData2.company : selectedClient === 'client3' ? clientData3.company : clientData4.company}</p>
                 </div>
               </div>
               <div className="header-badges">
-                <span className={`status-badge ${getStatusColor(selectedClient === 'client1' ? clientData.status : clientData2.status)}`}>
-                  {selectedClient === 'client1' ? clientData.status : clientData2.status}
+                <span className={`status-badge ${getStatusColor(selectedClient === 'client1' ? clientData.status : selectedClient === 'client2' ? clientData2.status : selectedClient === 'client3' ? clientData3.status : clientData4.status)}`}>
+                  {selectedClient === 'client1' ? clientData.status : selectedClient === 'client2' ? clientData2.status : selectedClient === 'client3' ? clientData3.status : clientData4.status}
                 </span>
                 <span className={`status-badge ${
-                  (selectedClient === 'client1' ? clientData.priority : clientData2.priority) === 'High' ? 'priority-high' : 
-                  (selectedClient === 'client1' ? clientData.priority : clientData2.priority) === 'Medium' ? 'priority-medium' : 
+                  (selectedClient === 'client1' ? clientData.priority : selectedClient === 'client2' ? clientData2.priority : selectedClient === 'client3' ? clientData3.priority : clientData4.priority) === 'High' ? 'priority-high' : 
+                  (selectedClient === 'client1' ? clientData.priority : selectedClient === 'client2' ? clientData2.priority : selectedClient === 'client3' ? clientData3.priority : clientData4.priority) === 'Medium' ? 'priority-medium' : 
                   'priority-low'
                 }`}>
-                  {selectedClient === 'client1' ? clientData.priority : clientData2.priority} Priority
+                  {selectedClient === 'client1' ? clientData.priority : selectedClient === 'client2' ? clientData2.priority : selectedClient === 'client3' ? clientData3.priority : clientData4.priority} Priority
                 </span>
               </div>
             </div>
@@ -973,61 +1179,72 @@ const ClientDetailView = () => {
                     <div className="info-list">
                       <div className="info-item">
                         <span className="info-label">Client ID:</span>
-                        <span className="info-value">{selectedClient === 'client1' ? clientData.id : clientData2.id}</span>
-                      </div>
-                      <div className="info-item">
-                        <span className="info-label">Email:</span>
-                        <span className="info-value">{selectedClient === 'client1' ? clientData.email : clientData2.email}</span>
-                      </div>
-                      <div className="info-item">
-                        <span className="info-label">Phone:</span>
-                        <span className="info-value">{selectedClient === 'client1' ? clientData.phone : clientData2.phone}</span>
-                      </div>
-                      <div className="info-item">
-                        <span className="info-label">CIN:</span>
-                        <span className="info-value">{selectedClient === 'client1' ? clientData.cin : clientData2.cin}</span>
-                      </div>
+                      <span className="info-value">{selectedClient === 'client1' ? clientData.id : selectedClient === 'client2' ? clientData2.id : selectedClient === 'client3' ? clientData3.id : clientData4.id}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Email:</span>
+                      <span className="info-value">{selectedClient === 'client1' ? clientData.email : selectedClient === 'client2' ? clientData2.email : selectedClient === 'client3' ? clientData3.email : clientData4.email}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Phone:</span>
+                      <span className="info-value">{selectedClient === 'client1' ? clientData.phone : selectedClient === 'client2' ? clientData2.phone : selectedClient === 'client3' ? clientData3.phone : clientData4.phone}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">CIN:</span>
+                      <span className="info-value">{selectedClient === 'client1' ? clientData.cin : selectedClient === 'client2' ? clientData2.cin : selectedClient === 'client3' ? clientData3.cin : clientData4.cin}</span>
                     </div>
                   </div>
+                </div>
 
                   <div className="info-section">
                     <h3>Filing Details</h3>
                     <div className="info-list">
                       <div className="info-item">
                         <span className="info-label">Filing Type:</span>
-                        <span className="info-value">{selectedClient === 'client1' ? clientData.filingType : clientData2.filingType}</span>
-                      </div>
-                      <div className="info-item">
-                        <span className="info-label">Assigned Operator:</span>
-                        <span className="info-value">{selectedClient === 'client1' ? clientData.assignedOperator : clientData2.assignedOperator}</span>
-                      </div>
-                      <div className="info-item">
-                        <span className="info-label">Deadline:</span>
-                        <span className="info-value">{selectedClient === 'client1' ? clientData.deadline : clientData2.deadline}</span>
-                      </div>
-                      <div className="info-item">
-                        <span className="info-label">Amount:</span>
-                        <span className="info-value">{selectedClient === 'client1' ? clientData.amount : clientData2.amount}</span>
-                      </div>
+                      <span className="info-value">{selectedClient === 'client1' ? clientData.filingType : selectedClient === 'client2' ? clientData2.filingType : selectedClient === 'client3' ? clientData3.filingType : clientData4.filingType}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Assigned Operator:</span>
+                      <span className="info-value">{selectedClient === 'client1' ? clientData.assignedOperator : selectedClient === 'client2' ? clientData2.assignedOperator : selectedClient === 'client3' ? clientData3.assignedOperator : clientData4.assignedOperator}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Deadline:</span>
+                      <span className="info-value">{selectedClient === 'client1' ? clientData.deadline : selectedClient === 'client2' ? clientData2.deadline : selectedClient === 'client3' ? clientData3.deadline : clientData4.deadline}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Amount:</span>
+                      <span className="info-value">{selectedClient === 'client1' ? clientData.amount : selectedClient === 'client2' ? clientData2.amount : selectedClient === 'client3' ? clientData3.amount : clientData4.amount}</span>
                     </div>
                   </div>
                 </div>
+              </div>
               )}
 
-              {activeTab === 'documents' && (
-                <div>
-                  <div className="documents-header">
-                    <h3>Compliance Cases</h3>
-                    <div className="documents-meta">
-                      <span>Total Cases: {selectedClient === 'client1' ? rocCases.length : rocCases2.length}</span>
-                    </div>
-                  </div>
-                  
-                  {(selectedClient === 'client1' ? rocCases : rocCases2).map((rocCase) => (
-                    <DocumentVerificationCard key={rocCase.id} rocCase={rocCase} />
-                  ))}
-                </div>
-              )}
+{activeTab === 'documents' && (
+  <div>
+    <div className="documents-header">
+      <h3>Compliance Cases</h3>
+      <div className="documents-meta">
+        <span>Total Cases: {
+          (selectedClient === 'client1' ? rocCases :
+          selectedClient === 'client2' ? rocCases2 :
+          selectedClient === 'client3' ? gstCases :
+          tdsCases).length + additionalCases.length
+        }</span>
+      </div>
+    </div>
+    
+    {[
+      ...(selectedClient === 'client1' ? rocCases :
+      selectedClient === 'client2' ? rocCases2 :
+      selectedClient === 'client3' ? gstCases :
+      tdsCases),
+      ...additionalCases
+    ].map((rocCase) => (
+      <DocumentVerificationCard key={rocCase.id} rocCase={rocCase} />
+    ))}
+  </div>
+)}
 
               {activeTab === 'timeline' && (
                 <div className="timeline-section">

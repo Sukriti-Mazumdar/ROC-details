@@ -41,7 +41,7 @@ function App() {
             </div>
           </div>
           <div className="hero-col2">
-            {/* Hero background image will be applied via CSS */}
+            
           </div>
         </div>
       </section>
